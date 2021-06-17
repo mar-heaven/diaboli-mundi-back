@@ -1,0 +1,2 @@
+include versioneer.py
+include diaboli_mundi_back/_version.py
