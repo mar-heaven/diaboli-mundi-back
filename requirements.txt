@@ -7,3 +7,4 @@ motor
 pyjwt
 orjson
 cryptography
+gunicorn
