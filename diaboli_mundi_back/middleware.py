@@ -1,6 +1,5 @@
 import logging
-from typing import Union, Optional, List
-import re
+from typing import List
 
 import jwt
 from fastapi import Request
@@ -9,9 +8,8 @@ from motor.motor_asyncio import AsyncIOMotorDatabase
 
 from diaboli_mundi_back.db.database import close_mongo_conn, create_mongo_conn, get_mongo
 from diaboli_mundi_back.settings import settings
-from diaboli_mundi_back.const import WHITE_LIST
 from diaboli_mundi_back.crud.permission import ROLE_TO_PERMISSION_TABLE_NAME, USER_TO_ROLE_TABLE_NAME, \
-    PERMISSION_TABLE_NAME
+    PERMISSION_TABLE_NAME, get_white_url_list
 
 
 async def connect_db() -> None:
@@ -41,7 +39,9 @@ async def auth(request, call_next):
 
 async def token_auth(request: Request, call_next, key=None):
     url = request.url.path
-    if url in WHITE_LIST:
+    db = get_mongo()
+    white_list = await get_white_url_list(db)
+    if url in white_list:
         return await call_next(request)
     token = request.headers.get('token')
     if not token:

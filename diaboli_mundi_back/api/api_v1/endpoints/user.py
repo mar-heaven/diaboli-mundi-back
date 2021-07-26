@@ -37,7 +37,7 @@ async def login(user: UserLogin):
     payload = {
         'user_id': user['user_id'],
     }
-    token = generator_private_api_token(payload, 7)
+    token = generator_private_api_token(payload, 15 * 24)
     return {"token": token, 'status': 200}
 
 

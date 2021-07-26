@@ -4,7 +4,7 @@ from fastapi import APIRouter, HTTPException, Depends
 
 from diaboli_mundi_back import crud
 from diaboli_mundi_back.db.database import get_mongo
-from diaboli_mundi_back.modles.permission import PermissionCreate, RoleCreate, UserRole, RolePermission
+from diaboli_mundi_back.modles.permission import PermissionCreate, RoleCreate, UserRole, RolePermission, WhiteUrl
 from diaboli_mundi_back.modles.response import Response
 from diaboli_mundi_back.utils import generator_private_api_token, decode_private_api_token
 from pymongo.errors import DuplicateKeyError
@@ -62,3 +62,16 @@ async def bind_permission(user_role: RolePermission):
     except DuplicateKeyError:
         return Response(msg="角色已有该权限", status=400)
     return Response(msg="权限绑定成功", status=201)
+
+
+@router.post(
+    "/create_white_url/"
+)
+async def bind_permission(white_url: WhiteUrl):
+    """ 创建系统白名单"""
+    db = get_mongo()
+    try:
+        await crud.permission.create_white_url(db, white_url)
+    except DuplicateKeyError:
+        return Response(msg="白名单已存在！！", status=400)
+    return Response(msg="白名单创建成功", status=201)

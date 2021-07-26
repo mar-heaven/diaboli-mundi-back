@@ -5,7 +5,7 @@ import hashlib
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from pymongo import ReturnDocument
 
-from diaboli_mundi_back.modles.permission import PermissionCreate, RoleCreate, UserRole, RolePermission
+from diaboli_mundi_back.modles.permission import PermissionCreate, RoleCreate, UserRole, RolePermission, WhiteUrl
 # from ..utils import generator_private_api_token
 
 PROJECTION = {"_id": 0}
@@ -19,6 +19,8 @@ ROLE_ID_TABLE_NAME = "role"
 USER_TO_ROLE_TABLE_NAME = "user_to_role"
 
 ROLE_TO_PERMISSION_TABLE_NAME = "role_to_permission"
+
+WHITE_URL_TABLE_NAME = "white_urls"
 
 
 async def create_permission(
@@ -68,7 +70,7 @@ async def bind_permission(
     # check permissions
     role_permission_instance = {
         "role_id": role_permission.role_id,
-        "permission_id": role_permission.role_id,
+        "permission_id": role_permission.permission_id,
     }
     return await db[ROLE_TO_PERMISSION_TABLE_NAME].insert_one(role_permission_instance)
 
@@ -83,3 +85,24 @@ async def bind_role(
         "role_id": user_role.role_id,
     }
     return await db[USER_TO_ROLE_TABLE_NAME].insert_one(instance)
+
+
+async def create_white_url(
+        db: AsyncIOMotorDatabase,
+        white_url: WhiteUrl
+) -> dict:
+    # check permissions
+    instance = {
+        "url": white_url.url,
+    }
+    return await db[WHITE_URL_TABLE_NAME].insert_one(instance)
+
+
+async def get_white_url_list(
+        db: AsyncIOMotorDatabase,
+) -> list:
+    # check permissions
+    cursor = db[WHITE_URL_TABLE_NAME].find(projection=PROJECTION)
+    data = await cursor.to_list(None)
+    data = [row["url"] for row in data]
+    return data

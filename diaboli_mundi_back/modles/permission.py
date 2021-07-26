@@ -38,3 +38,7 @@ class UserRole(BaseModel):
 class RolePermission(BaseModel):
     role_id: int
     permission_id: int
+
+
+class WhiteUrl(BaseModel):
+    url: str

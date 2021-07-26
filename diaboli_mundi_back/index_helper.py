@@ -19,17 +19,17 @@ def create_index(url, unique=True):
     print(f"{coll} index created")
 
     coll = "role_to_permission"
-    db[coll].create_index([("title", pymongo.ASCENDING), ("permission_id", pymongo.ASCENDING)], unique=unique,
-                          background=unique)
-    print(f"{coll} index created")
-
-    coll = "role_to_permission"
     db[coll].create_index([("role_id", pymongo.ASCENDING), ("permission_id", pymongo.ASCENDING)], unique=unique,
                           background=unique)
     print(f"{coll} index created")
 
     coll = "user_to_role"
     db[coll].create_index([("user_id", pymongo.ASCENDING), ("role_id", pymongo.ASCENDING)], unique=unique,
+                          background=True)
+    print(f"{coll} index created")
+
+    coll = "white_urls"
+    db[coll].create_index([("url", pymongo.ASCENDING)], unique=unique,
                           background=True)
     print(f"{coll} index created")
 

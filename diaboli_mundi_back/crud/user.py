@@ -33,7 +33,7 @@ async def check_user(
     if not res:
         return "手机号不合法"
     if user.password != user.password_repeat:
-        return "再次密码不一致！"
+        return "两次密码不一致！"
     filter_ = {
         "phone": user.phone,
     }
