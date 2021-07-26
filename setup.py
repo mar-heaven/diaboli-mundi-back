@@ -3,10 +3,10 @@ from setuptools import setup, find_packages
 
 import versioneer
 
-with open('README.md') as f:
+with open('README.md', encoding="utf8") as f:
     readme = f.read()
 
-with open('HISTORY.md') as f:
+with open('HISTORY.md', encoding="utf8") as f:
     history = f.read()
 
 
