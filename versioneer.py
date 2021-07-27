@@ -1223,6 +1223,27 @@ def render_pep440(pieces):
     return rendered
 
 
+def render_pep440_dev(pieces):
+    """TAG[.devDISTANCE.gHEX[.dirty]] .
+    Exceptions:
+    1: no tags. 0.devDISTANCE.gHEX[.dirty]
+    """
+    if pieces["closest-tag"]:
+        rendered = pieces["closest-tag"]
+        if pieces["distance"] or pieces["dirty"]:
+            rendered += ".dev%d" % pieces["distance"]
+            rendered += ".g%s" % pieces["short"]
+    else:
+        # exception #1
+        rendered = "0.dev%d" % pieces["distance"]
+        rendered += ".g%s" % pieces["short"]
+
+    if pieces["dirty"]:
+        rendered += ".dirty"
+
+    return rendered
+
+
 def render_pep440_pre(pieces):
     """TAG[.post0.devDISTANCE] -- No -dirty.
 
@@ -1342,6 +1363,8 @@ def render(pieces, style):
 
     if style == "pep440":
         rendered = render_pep440(pieces)
+    elif style == "pep440-dev":
+        rendered = render_pep440_dev(pieces)
     elif style == "pep440-pre":
         rendered = render_pep440_pre(pieces)
     elif style == "pep440-post":
