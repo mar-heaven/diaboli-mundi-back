@@ -3,7 +3,12 @@ USER root
 
 WORKDIR /tmp
 COPY . /tmp
-RUN pip3 install -i https://pypi.douban.com/simple -r /tmp/requirements.txt && pip3 install -e .
+
+RUN pip install \
+    /tmp/build/*  \
+&&  rm -rf /tmp/build
+
+RUN pip3 install -i https://pypi.douban.com/simple -r /tmp/requirements.txt && rm -f /tmp/requirements.txt
 
 EXPOSE 5000
 
