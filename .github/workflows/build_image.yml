@@ -24,6 +24,8 @@ jobs:
           find ./build/lib* -name "*.so" | sed 's/cpython.*\$/c/g' | xargs rm -f
           echo "Start building wheel"
           python setup.py bdist_wheel --skip-build
+      - name: ls
+        run: ls -al
       - name: Set the image tag
         run: |
           echo "IMAGE_TAG=$(python -c 'import versioneer; print(versioneer.get_version())')" >> $GITHUB_ENV
