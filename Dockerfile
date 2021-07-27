@@ -10,6 +10,11 @@ RUN pip install \
 
 RUN pip3 install -i https://pypi.douban.com/simple -r /tmp/requirements.txt && rm -f /tmp/requirements.txt
 
+COPY ./dist/* /tmp/build/
+RUN pip install \
+    /tmp/build/*  \
+&&  rm -rf /tmp/build
+
 EXPOSE 5000
 
 CMD ["gunicorn", "-b", "0.0.0.0:5000", "-k", "uvicorn.workers.UvicornWorker", "-w", "2", "diaboli_mundi_back.main:app", "--access-logfile", "-"]
