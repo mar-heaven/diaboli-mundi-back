@@ -26,10 +26,7 @@ jobs:
           python setup.py bdist_wheel --skip-build
       - name: Set the image tag
         run: |
-          echo "IMAGE_TAG=$(python -c "import versioneer; print(versioneer.get_version()))" >> $GITHUB_ENV
-      - name: Use the value
-        run: |
-          echo "${{ env.action_state }}" # This will output 'yellow'
+          echo "IMAGE_TAG=$(python -c "import versioneer; print(versioneer.get_version())") >> $GITHUB_ENV
       - name: Log in to Docker Hub
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
@@ -40,5 +37,5 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: caesar123/diaboli_mundi_back:$IMAGE_TAG
+          tags: caesar123/diaboli_mundi_back:${{ env.IMAGE_TAG }}
 
