@@ -4,9 +4,7 @@ USER root
 WORKDIR /tmp
 COPY . /tmp
 
-RUN pip3 install \
-    /tmp/dist/*  \
-&&  rm -rf /tmp/dist
+RUN pip3 install install -e .
 
 RUN pip3 install -i https://pypi.douban.com/simple -r /tmp/requirements.txt && rm -f /tmp/requirements.txt
 
