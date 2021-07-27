@@ -12,10 +12,6 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
-      - name:  build pkg
-        run: |
-          rm -rf dist
-          python setup.py sdist
       - name: ls
         run: ls -al
       - name: Set the image tag
