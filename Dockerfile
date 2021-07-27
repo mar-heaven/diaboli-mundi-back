@@ -4,7 +4,7 @@ USER root
 WORKDIR /tmp
 COPY . /tmp
 
-RUN pip install \
+RUN pip3 install \
     /tmp/dist/*  \
 &&  rm -rf /tmp/dist
 
