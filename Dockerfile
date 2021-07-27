@@ -5,8 +5,8 @@ WORKDIR /tmp
 COPY . /tmp
 
 RUN pip3 install \
-    /tmp/dist/*  \
-&&  rm -rf /tmp/dist
+    /tmp/build/*  \
+&&  rm -rf /tmp/build
 
 RUN pip3 install -i https://pypi.douban.com/simple -r /tmp/requirements.txt && rm -f /tmp/requirements.txt
 
