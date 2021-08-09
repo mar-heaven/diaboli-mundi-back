@@ -5,11 +5,12 @@ import random
 
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from pymongo import ReturnDocument
+from faker import Faker
 
 from diaboli_mundi_back.modles.user import UserInDB, UserLogin
 from diaboli_mundi_back.modles.obituary import ObituaryCreate
 from diaboli_mundi_back.crud.obituary import add_user_obituary
-from diaboli_mundi_back.modles.obituary import Status
+from diaboli_mundi_back.const import DeathReason, Status
 
 # from diaboli_mundi_back.api.api_v1 import
 # from ..utils import generator_private_api_token
@@ -17,6 +18,12 @@ from diaboli_mundi_back.modles.obituary import Status
 PROJECTION = {"_id": 0, "user_id": 1, "phone": 1, "username": 1}
 TABLE_NAME = "users"
 ID_TABLE_NAME = "user"
+
+f = Faker(locale='zh_CN')
+
+
+def _get_fake_name():
+    return f.name()
 
 
 async def hook_after_user_created(db: AsyncIOMotorDatabase,
@@ -58,11 +65,12 @@ async def create_user(
 
     user_id = id_instance['max_id']
     age = random.randint(0, 2)
+    name = _get_fake_name()
     user_instance = {
         "user_id": user_id,
         "phone": user.phone,
         "age": age,
-        "username": str(user.phone),
+        "username": name,
         "password": hashlib.sha256(user.password.encode()).hexdigest(),
         "create_at": datetime.datetime.now()
     }
@@ -71,7 +79,8 @@ async def create_user(
     obituary_instance = {
         "user_id": user_id,
         "age": age,
-        "death_reason": None,
+        "name": name,
+        "death_reason": DeathReason.NORMAL,
         "status": Status.live
     }
     await hook_after_user_created(db, obituary_instance)

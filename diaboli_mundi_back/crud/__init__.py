@@ -1,1 +1,1 @@
-from . import user, permission
+from . import user, permission, obituary

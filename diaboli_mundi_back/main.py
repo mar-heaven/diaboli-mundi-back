@@ -17,7 +17,7 @@ def get_application() -> FastAPI:
     application.include_router(api_router, prefix=settings.api_v1_str)
     application.add_event_handler("startup", start_up)
     application.add_event_handler("shutdown", shutdown)
-    application.middleware("http")(auth)
+    # application.middleware("http")(auth)
     return application
 
 
