@@ -8,4 +8,4 @@ pyjwt
 orjson
 cryptography
 gunicorn
-fake
+faker
